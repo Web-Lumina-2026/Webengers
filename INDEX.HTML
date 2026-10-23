@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campus 2.0 | Dronacharya College of Engineering</title>
+  
+  <!-- Fonts: Plus Jakarta Sans & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons & Tailwind CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Outfit"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#fdf2f2',
+              100: '#fde8e8',
+              700: '#9b1c1c',
+              800: '#8e1b1b',
+              900: '#771d1d',
+              accent: '#0284c7'
+            },
+            surface: {
+              dark: '#090c13',
+              darkCard: '#131926',
+              borderDark: '#1f293d',
+            }
+          },
+          borderRadius: {
+            '3xl': '28px',
+            '4xl': '36px',
+          },
+          boxShadow: {
+            'luxury-dark': '0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08)',
+            'glow-red': '0 0 35px -5px rgba(155, 28, 28, 0.5)',
+            'glow-gold': '0 0 35px -5px rgba(245, 158, 11, 0.4)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* CSS :target Modal Handlers with Pop Animation */
+    .modal-target {
+      display: none;
+    }
+    .modal-target:target {
+      display: flex;
+      animation: modalBackdrop 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .modal-target:target > div {
+      animation: modalPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes modalBackdrop {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes modalPop {
+      from { opacity: 0; transform: scale(0.9) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Floating Island Animation */
+    @keyframes heroFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-7px); }
+    }
+    .float-slow {
+      animation: heroFloat 6s ease-in-out infinite;
+    }
+
+    /* Ambient Orb Glow Rotation */
+    @keyframes orbSpin {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.15); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+    .animate-orb {
+      animation: orbSpin 14s linear infinite;
+    }
+
+    /* Shimmer Effect for Badges */
+    @keyframes badgeShimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .shimmer-badge {
+      background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.05) 100%);
+      background-size: 200% 100%;
+      animation: badgeShimmer 4s infinite linear;
+    }
+
+    /* Live Telemetry Radar Ping */
+    @keyframes radarPing {
+      0% { transform: scale(0.9); opacity: 0.9; }
+      70% { transform: scale(2.2); opacity: 0; }
+      100% { transform: scale(2.4); opacity: 0; }
+    }
+    .radar-ring {
+      position: absolute;
+      inset: -3px;
+      border-radius: 9999px;
+      border: 2px solid #10b981;
+      animation: radarPing 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+
+    .glass-panel {
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(234, 88, 12, 0.5);
+    }
+  </style>
+</head>
+
+<body class="bg-[#090c13] text-slate-100 font-sans antialiased selection:bg-brand-700 selection:text-white min-h-screen relative overflow-x-hidden">
+
+  <!-- ================= TOP NAVIGATION BAR ================= -->
+  <header class="sticky top-0 z-40 w-full glass-panel bg-[#0b0f19]/90 border-b border-slate-800/80 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Dronacharya College Logo & Title -->
+      <a href="#" class="flex items-center gap-3.5 group">
+        <div class="h-12 w-12 sm:h-14 sm:w-14 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-lg shadow-black/50 border border-white/20 transform group-hover:scale-105 group-hover:rotate-1 transition-all duration-300 overflow-hidden">
+          <img 
+            src="logo.png" 
+            alt="Dronacharya College of Engineering Logo" 
+            class="w-full h-full object-contain"
+            onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/DCE_Gurgaon_Logo.png/220px-DCE_Gurgaon_Logo.png';"
+          />
+        </div>
+        
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <span class="font-display font-black text-base sm:text-lg tracking-wider text-white uppercase flex items-center gap-1.5">
+              DRONACHARYA
+              <i class="fa-solid fa-circle-check text-amber-500 text-xs animate-bounce" title="Official Institution"></i>
+            </span>
+          </div>
+          <span class="text-[11px] sm:text-xs font-semibold tracking-wide text-[#dc3545] font-display">
+            College of Engineering
+          </span>
+          <span class="text-[9px] uppercase tracking-widest text-slate-400 font-bold hidden sm:block">Campus 2.0 Connected Portal</span>
+        </div>
+      </a>
+
+      <!-- Quick Nav Links with animated hover underlines -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-300">
+        <a href="#live-sensors" class="hover:text-amber-400 transition-colors flex items-center gap-2 group py-1 relative">
+          <span class="relative flex h-2.5 w-2.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+          </span>
+          <span>Live Sensors</span>
+        </a>
+        <a href="#events" class="hover:text-amber-400 transition-colors py-1">Events & Clubs</a>
+        <a href="#peer-feed" class="hover:text-amber-400 transition-colors py-1">Peer Connect</a>
+        <a href="#amenities" class="hover:text-amber-400 transition-colors py-1">Campus Directory</a>
+      </nav>
+
+      <!-- Right Header Actions -->
+      <div class="flex items-center gap-3">
+        <div class="hidden lg:flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-800/80 border border-slate-700/60 text-slate-300">
+          <i class="fa-regular fa-clock text-amber-400"></i>
+          <span>11:38 AM</span> &bull; <span class="text-emerald-400 font-bold">Open Campus</span>
+        </div>
+
+        <div class="w-10 h-10 rounded-2xl flex items-center justify-center bg-slate-800 text-amber-400 border border-slate-700 shadow-sm" title="Dark Theme Active">
+          <i class="fa-solid fa-moon"></i>
+        </div>
+
+        <!-- Student ID Pass trigger with pulsing shadow -->
+        <a href="#id-modal" class="inline-flex items-center gap-2 bg-[#8e1b1b] hover:bg-[#a82020] text-white px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold tracking-wide shadow-lg shadow-red-950/50 hover:shadow-red-600/30 transition-all duration-300 active:scale-95 border border-red-500/30">
+          <i class="fa-solid fa-qrcode text-base text-amber-300"></i>
+          <span class="hidden sm:inline">Digital Identity</span>
+          <span class="sm:hidden">Pass</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================= HERO & REAL CAMPUS SHOWCASE ================= -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-10 relative">
+
+    <section class="relative rounded-4xl overflow-hidden shadow-2xl bg-slate-900 border border-slate-800 transition-all group">
+      <!-- Real Dronacharya College Campus Facade Image -->
+      <div class="relative h-[360px] sm:h-[480px] md:h-[530px] w-full overflow-hidden">
+        <img 
+          src="campus.png" 
+          alt="Dronacharya College of Engineering Campus Facade" 
+          class="w-full h-full object-cover object-center filter brightness-[0.78] group-hover:scale-105 transition-transform duration-1000 ease-out"
+          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1600&auto=format&fit=crop';"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-[#090c13] via-[#090c13]/60 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-[#090c13]/85 via-transparent to-[#090c13]/40"></div>
+
+        <!-- Top Badges Floating Over Campus Facade -->
+        <div class="absolute top-5 left-5 right-5 flex items-center justify-between pointer-events-none">
+          <div class="flex items-center gap-2 pointer-events-auto flex-wrap">
+            <span class="glass-panel shimmer-badge text-white text-xs font-semibold px-3.5 py-1.5 rounded-full border border-white/20 backdrop-blur-md flex items-center gap-1.5 shadow-lg">
+              <i class="fa-solid fa-graduation-cap text-amber-400"></i> Engineering & Technology Campus
+            </span>
+            <span class="glass-panel bg-emerald-950/80 text-emerald-300 text-xs font-semibold px-3 py-1.5 rounded-full border border-emerald-500/40 flex items-center gap-2 shadow-lg">
+              <span class="relative flex h-2 w-2">
+                <span class="radar-ring"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+              </span>
+              AICTE & NBA Accredited
+            </span>
+          </div>
+
+          <div class="flex items-center gap-2 pointer-events-auto">
+            <span class="glass-panel bg-black/60 text-white text-xs font-medium px-3.5 py-1.5 rounded-full border border-white/20 backdrop-blur-md hidden sm:flex items-center gap-1.5">
+              <i class="fa-regular fa-eye text-amber-400"></i> 14.8k Active Students
+            </span>
+            <div class="glass-panel bg-black/60 text-white w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer">
+              <i class="fa-solid fa-heart text-rose-500 animate-pulse"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating Glass Island Title Card -->
+        <div class="absolute bottom-6 left-6 right-6 md:left-10 md:bottom-10 text-white float-slow">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xs uppercase tracking-widest font-extrabold text-amber-400 bg-amber-950/70 border border-amber-500/40 px-3 py-1 rounded-full shadow-inner">Khentawas, Farrukhnagar &bull; Gurugram</span>
+            <span class="text-xs text-slate-300 hidden sm:inline">&bull; Estd. 2006</span>
+          </div>
+          <h1 class="text-3xl sm:text-5xl md:text-6xl font-display font-extrabold tracking-tight leading-none text-white drop-shadow-md">
+            Dronacharya College <br class="hidden sm:inline"/>of Engineering
+          </h1>
+          <p class="mt-3 text-sm sm:text-base text-slate-300 max-w-2xl font-light leading-relaxed drop-shadow">
+            "Making campus life smarter, hyper-connected, and accessible." Connecting engineering students with real-time laboratory availability, cafeteria sensors, study exchanges, and digital credentials.
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Action Strip -->
+      <div class="bg-surface-darkCard px-6 py-4 border-t border-slate-800 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-300">
+          <span class="px-3 py-1 rounded-xl bg-slate-800 border border-slate-700 hover:border-slate-500 transition-colors">Autonomous Tier-1</span>
+          <span class="px-3 py-1 rounded-xl bg-slate-800 border border-slate-700 hover:border-slate-500 transition-colors">NAAC A-Grade</span>
+          <span class="px-3 py-1 rounded-xl bg-slate-800 border border-slate-700 hover:border-slate-500 transition-colors">Gurugram Metro Shuttle Active</span>
+        </div>
+
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <a href="#nav-modal" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-amber-300 bg-amber-950/60 border border-amber-800 hover:bg-amber-900 hover:-translate-y-0.5 transition-all">
+            <i class="fa-solid fa-location-arrow"></i> Campus Map
+          </a>
+          <a href="tel:+911242760000" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-slate-200 bg-slate-800 hover:bg-slate-700 hover:-translate-y-0.5 transition-all border border-slate-700">
+            <i class="fa-solid fa-phone"></i> Helpline
+          </a>
+          <a href="#id-modal" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white bg-brand-800 border border-red-500/40 hover:bg-brand-900 hover:-translate-y-0.5 transition-all shadow-md">
+            <i class="fa-solid fa-id-badge text-amber-400"></i> Smart Pass
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= LIVE CAMPUS VIBE & SENSORS ================= -->
+    <section id="live-sensors" class="space-y-4 pt-2">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="relative flex h-2.5 w-2.5">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+            </span>
+            <span class="text-xs uppercase tracking-widest font-bold text-emerald-400">Real-Time Telemetry</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-display font-bold text-white">Smart Campus Live Vibe</h2>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-slate-400">Continuous IoT Stream Sync</span>
+          <div class="p-2 text-xs rounded-xl bg-surface-darkCard border border-slate-800 text-amber-400 shadow-sm hover:rotate-180 transition-transform duration-500 cursor-pointer">
+            <i class="fa-solid fa-rotate-right"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        
+        <!-- Central Library Card -->
+        <div class="relative bg-surface-darkCard p-6 rounded-3xl border border-slate-800 shadow-luxury-dark hover:border-red-500/50 hover:-translate-y-2 hover:shadow-glow-red transition-all duration-300 group overflow-hidden">
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-12 h-12 rounded-2xl bg-red-950/70 border border-red-800/80 text-red-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300">
+              <i class="fa-solid fa-book-bookmark"></i>
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-800/50 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              Quiet & Available
+            </span>
+          </div>
+
+          <h3 class="text-lg font-bold text-white group-hover:text-red-400 transition-colors">Central Library</h3>
+          <p class="text-xs text-slate-400 mb-4">2nd Floor, Academic Block A &bull; Air Conditioned</p>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs font-semibold">
+              <span class="text-slate-400">Available Reading Desks</span>
+              <span class="text-red-400 font-bold">48 / 180 Vacant</span>
+            </div>
+            <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
+              <div class="bg-gradient-to-r from-red-800 to-red-500 h-full rounded-full transition-all duration-1000" style="width: 73%"></div>
+            </div>
+          </div>
+
+          <div class="mt-5 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+            <span><i class="fa-solid fa-wifi text-amber-400 mr-1"></i> DCE High-Speed Wi-Fi</span>
+            <span class="font-bold text-red-400">Floor 2 &bull; East Wing</span>
+          </div>
+        </div>
+
+        <!-- Canteen & Food Court Card -->
+        <div class="relative bg-surface-darkCard p-6 rounded-3xl border border-slate-800 shadow-luxury-dark hover:border-amber-500/50 hover:-translate-y-2 hover:shadow-glow-gold transition-all duration-300 group overflow-hidden">
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-12 h-12 rounded-2xl bg-amber-950/70 border border-amber-800/80 text-amber-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300">
+              <i class="fa-solid fa-utensils"></i>
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-950 text-amber-300 border border-amber-800/50 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
+              Moderate Rush
+            </span>
+          </div>
+
+          <h3 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">Campus Food Hub</h3>
+          <p class="text-xs text-slate-400 mb-4">Ground Floor, Student Activity Center</p>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs font-semibold">
+              <span class="text-slate-400">Estimated Counter Wait</span>
+              <span class="text-amber-400 font-bold">~6 mins queue</span>
+            </div>
+            <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
+              <div class="bg-gradient-to-r from-amber-600 to-amber-400 h-full rounded-full transition-all duration-1000" style="width: 52%"></div>
+            </div>
+          </div>
+
+          <div class="mt-5 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+            <span><i class="fa-solid fa-leaf text-emerald-500 mr-1"></i> Special: Thali & Rolls</span>
+            <span class="font-bold text-amber-400">Open 9AM - 5PM</span>
+          </div>
+        </div>
+
+        <!-- AI & Robotics Lab Availability -->
+        <div class="relative bg-surface-darkCard p-6 rounded-3xl border border-slate-800 shadow-luxury-dark hover:border-cyan-500/50 hover:-translate-y-2 transition-all duration-300 group overflow-hidden">
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-12 h-12 rounded-2xl bg-cyan-950/70 border border-cyan-800/80 text-cyan-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300">
+              <i class="fa-solid fa-microchip"></i>
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-cyan-950 text-cyan-300 border border-cyan-800/50">
+              Open Workstations
+            </span>
+          </div>
+
+          <h3 class="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors">NVIDIA AI & IoT Lab</h3>
+          <p class="text-xs text-slate-400 mb-4">Block B, 3rd Floor &bull; RTX 4090 Workstations</p>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs font-semibold">
+              <span class="text-slate-400">Active Lab Occupancy</span>
+              <span class="text-cyan-400 font-bold">14 / 40 Systems Free</span>
+            </div>
+            <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
+              <div class="bg-gradient-to-r from-cyan-700 to-cyan-400 h-full rounded-full transition-all duration-1000" style="width: 65%"></div>
+            </div>
+          </div>
+
+          <div class="mt-5 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+            <span><i class="fa-solid fa-bolt text-amber-500 mr-1"></i> GPU Compute Cluster On</span>
+            <span class="font-bold text-cyan-400">Room 304</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= EVENTS & CLUB SYNC ================= -->
+    <section id="events" class="space-y-5">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <span class="text-xs uppercase tracking-widest font-bold text-amber-400">Curated Experiences</span>
+          <h2 class="text-2xl sm:text-3xl font-display font-bold text-white">Campus Buzz & Club Sync</h2>
+        </div>
+
+        <div class="flex items-center gap-1.5 p-1 bg-slate-800/80 rounded-2xl overflow-x-auto text-xs font-semibold border border-slate-700/60">
+          <span class="px-3.5 py-1.5 rounded-xl bg-slate-700 text-white shadow-sm cursor-pointer hover:bg-slate-600 transition-colors">All Events</span>
+          <span class="px-3.5 py-1.5 rounded-xl text-slate-300 cursor-pointer hover:bg-slate-700 transition-colors">Hackathons</span>
+          <span class="px-3.5 py-1.5 rounded-xl text-slate-300 cursor-pointer hover:bg-slate-700 transition-colors">Cultural</span>
+          <span class="px-3.5 py-1.5 rounded-xl text-slate-300 cursor-pointer hover:bg-slate-700 transition-colors">Workshops</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Event Card 1 -->
+        <div class="bg-surface-darkCard rounded-3xl border border-slate-800 overflow-hidden shadow-luxury-dark hover:border-red-500/40 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between group">
+          <div>
+            <div class="relative h-44 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover filter brightness-90 group-hover:scale-110 transition-transform duration-700" alt="Hackathon" />
+              <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold bg-brand-800 text-white shadow">Tech & Hackathon</span>
+              <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-xl text-xs font-bold bg-black/80 backdrop-blur-md text-amber-300 border border-white/10">
+                <i class="fa-solid fa-trophy mr-1 animate-pulse"></i> ₹50,000 Prize
+              </span>
+            </div>
+            <div class="p-5">
+              <div class="flex items-center gap-2 text-xs text-slate-400 mb-1.5">
+                <i class="fa-regular fa-calendar text-amber-400"></i> Oct 28 &bull; DCE Main Auditorium
+              </div>
+              <h3 class="text-lg font-bold text-white leading-snug group-hover:text-amber-300 transition-colors">
+                DronHack 2026: GenAI & Robotics 24h Sprint
+              </h3>
+              <p class="mt-2 text-xs text-slate-300 line-clamp-2">
+                Build autonomous systems and intelligent campus agents. Mentored by leading Silicon Valley & Gurugram tech mentors.
+              </p>
+            </div>
+          </div>
+          <div class="p-5 pt-0 flex items-center justify-between border-t border-slate-800/80 mt-2">
+            <span class="text-xs font-semibold text-slate-400">142 Registered</span>
+            <span class="px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-950 hover:bg-amber-300 hover:scale-105 transition-all">
+              Open Registration
+            </span>
+          </div>
+        </div>
+
+        <!-- Event Card 2 -->
+        <div class="bg-surface-darkCard rounded-3xl border border-slate-800 overflow-hidden shadow-luxury-dark hover:border-rose-500/40 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between group">
+          <div>
+            <div class="relative h-44 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover filter brightness-90 group-hover:scale-110 transition-transform duration-700" alt="Cultural Fest" />
+              <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold bg-rose-700 text-white shadow">Cultural Fest</span>
+              <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-xl text-xs font-bold bg-black/80 backdrop-blur-md text-slate-200 border border-white/10">
+                <i class="fa-solid fa-music mr-1"></i> Band Night
+              </span>
+            </div>
+            <div class="p-5">
+              <div class="flex items-center gap-2 text-xs text-slate-400 mb-1.5">
+                <i class="fa-regular fa-calendar text-rose-500"></i> Nov 05 &bull; Central Amphitheatre
+              </div>
+              <h3 class="text-lg font-bold text-white leading-snug group-hover:text-rose-300 transition-colors">
+                Vibrance '26: Annual Fest & Battle of Bands
+              </h3>
+              <p class="mt-2 text-xs text-slate-300 line-clamp-2">
+                Celebration of dance, acoustic melodies, standup performances, and food stalls from across the country.
+              </p>
+            </div>
+          </div>
+          <div class="p-5 pt-0 flex items-center justify-between border-t border-slate-800/80 mt-2">
+            <span class="text-xs font-semibold text-slate-400">380+ Attending</span>
+            <span class="px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-950 hover:bg-rose-300 hover:scale-105 transition-all">
+              Passes Active
+            </span>
+          </div>
+        </div>
+
+        <!-- Event Card 3 -->
+        <div class="bg-surface-darkCard rounded-3xl border border-slate-800 overflow-hidden shadow-luxury-dark hover:border-emerald-500/40 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between group">
+          <div>
+            <div class="relative h-44 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover filter brightness-90 group-hover:scale-110 transition-transform duration-700" alt="Workshop" />
+              <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold bg-emerald-700 text-white shadow">Hands-on Workshop</span>
+              <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-xl text-xs font-bold bg-black/80 backdrop-blur-md text-emerald-300 border border-white/10">Certificate Given</span>
+            </div>
+            <div class="p-5">
+              <div class="flex items-center gap-2 text-xs text-slate-400 mb-1.5">
+                <i class="fa-regular fa-calendar text-emerald-500"></i> Nov 12 &bull; Seminar Hall II
+              </div>
+              <h3 class="text-lg font-bold text-white leading-snug group-hover:text-emerald-300 transition-colors">
+                Autonomous EV Systems & Drone Telemetry
+              </h3>
+              <p class="mt-2 text-xs text-slate-300 line-clamp-2">
+                Learn firmware programming for STM32 and ROS2 implementation on real micro-controller rovers.
+              </p>
+            </div>
+          </div>
+          <div class="p-5 pt-0 flex items-center justify-between border-t border-slate-800/80 mt-2">
+            <span class="text-xs font-semibold text-slate-400">Only 18 seats left</span>
+            <span class="px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-950 hover:bg-emerald-300 hover:scale-105 transition-all">
+              Limited Seats
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= PEER CONNECT & CAMPUS BOARD ================= -->
+    <section id="peer-feed" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Community Feed -->
+      <div class="lg:col-span-2 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-xs uppercase tracking-widest font-bold text-red-400">Collaborative Network</span>
+            <h2 class="text-2xl font-display font-bold text-white">Peer Connect & Community Board</h2>
+          </div>
+          <a href="#post-modal" class="px-4 py-2 bg-brand-800 hover:bg-brand-700 text-white text-xs font-bold rounded-2xl flex items-center gap-2 shadow-md hover:-translate-y-0.5 transition-all">
+            <i class="fa-solid fa-plus"></i> Post to Board
+          </a>
+        </div>
+
+        <div class="flex items-center gap-2 border-b border-slate-800 pb-2 text-xs font-semibold">
+          <span class="px-3 py-1.5 rounded-xl bg-slate-800 text-white cursor-pointer">All Posts</span>
+          <span class="px-3 py-1.5 rounded-xl text-slate-400 cursor-pointer hover:bg-slate-800">Ride Shares</span>
+          <span class="px-3 py-1.5 rounded-xl text-slate-400 cursor-pointer hover:bg-slate-800">Lost & Found</span>
+          <span class="px-3 py-1.5 rounded-xl text-slate-400 cursor-pointer hover:bg-slate-800">Study Notes</span>
+        </div>
+
+        <div class="space-y-3.5">
+          <!-- Carpool Post -->
+          <div class="bg-surface-darkCard p-4 rounded-3xl border border-slate-800 shadow-sm hover:border-amber-500/30 hover:-translate-y-1 transition-all">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-amber-950/80 text-amber-400 flex items-center justify-center font-bold text-sm border border-amber-800/40">
+                  AK
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white">Aman Kapoor <span class="text-xs font-normal text-slate-400">(CSE 3rd Year)</span></h4>
+                  <p class="text-[11px] text-slate-400">22 mins ago &bull; Verified Student</p>
+                </div>
+              </div>
+              <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-amber-950 text-amber-300 border border-amber-800">
+                <i class="fa-solid fa-car-side mr-1"></i> Ride Share
+              </span>
+            </div>
+            <p class="mt-3 text-xs text-slate-300 leading-relaxed">
+              Leaving college for <span class="font-semibold text-amber-400">IFFCO Chowk Metro (Gurugram)</span> today at 4:45 PM. Have 2 empty seats in i20. Ping me on DCE Chat or split fuel!
+            </p>
+            <div class="mt-3 flex items-center justify-between text-xs pt-2 border-t border-slate-800/80">
+              <span class="text-slate-400"><i class="fa-solid fa-users mr-1"></i> 2 seats open</span>
+              <span class="text-red-400 font-bold hover:underline cursor-pointer">Connect via DCE Chat &rarr;</span>
+            </div>
+          </div>
+
+          <!-- Lost & Found Post -->
+          <div class="bg-surface-darkCard p-4 rounded-3xl border border-slate-800 shadow-sm hover:border-rose-500/30 hover:-translate-y-1 transition-all">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-rose-950/80 text-rose-400 flex items-center justify-center font-bold text-sm border border-rose-800/40">
+                  PS
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white">Pooja Sharma <span class="text-xs font-normal text-slate-400">(ECE 2nd Year)</span></h4>
+                  <p class="text-[11px] text-slate-400">1 hour ago &bull; Campus Security notified</p>
+                </div>
+              </div>
+              <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-rose-950 text-rose-300 border border-rose-800">
+                <i class="fa-solid fa-magnifying-glass mr-1"></i> Lost & Found
+              </span>
+            </div>
+            <p class="mt-3 text-xs text-slate-300 leading-relaxed">
+              Found a set of Yamaha bike keys with a black Marvel Spider-Man keychain in the Ground Floor Canteen bench around 11:00 AM. Handed over to Block A Reception.
+            </p>
+            <div class="mt-3 flex items-center justify-between text-xs pt-2 border-t border-slate-800/80">
+              <span class="text-slate-400"><i class="fa-solid fa-location-dot text-rose-500 mr-1"></i> Block A Reception desk</span>
+              <span class="text-rose-400 font-bold hover:underline cursor-pointer">Claim at Desk &rarr;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Campus AI Assistant Box with Floating Glow -->
+      <div class="space-y-4">
+        <div>
+          <span class="text-xs uppercase tracking-widest font-bold text-amber-400">Campus Intelligence</span>
+          <h2 class="text-2xl font-display font-bold text-white">Campus AI Mate</h2>
+        </div>
+
+        <div class="bg-gradient-to-br from-slate-900 to-[#2b0e0e] text-white p-5 rounded-3xl shadow-xl border border-red-900/40 relative overflow-hidden flex flex-col justify-between h-[420px]">
+          <!-- Rotating Ambient Orb -->
+          <div class="absolute -right-12 -top-12 w-44 h-44 bg-red-600/20 rounded-full blur-3xl pointer-events-none animate-orb"></div>
+
+          <div class="relative z-10">
+            <div class="flex items-center justify-between pb-3 border-b border-red-950/60">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-xl bg-brand-800 flex items-center justify-center text-white text-xs shadow-glow-red">
+                  <i class="fa-solid fa-sparkles text-amber-300 animate-spin" style="animation-duration: 8s;"></i>
+                </div>
+                <div>
+                  <h4 class="text-xs font-bold tracking-wide">DCE SmartBot 2.0</h4>
+                  <span class="text-[10px] text-emerald-400 flex items-center gap-1 font-semibold">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Instant Engine Active
+                  </span>
+                </div>
+              </div>
+              <span class="text-[10px] bg-red-950/80 border border-red-700/40 px-2 py-0.5 rounded-full text-red-200">2026 Model</span>
+            </div>
+
+            <!-- Chat Window -->
+            <div class="mt-3 space-y-2.5 overflow-y-auto max-h-[220px] pr-1 text-xs">
+              <div class="bg-white/10 p-3 rounded-2xl rounded-tl-sm text-slate-200 leading-relaxed border border-white/5">
+                👋 Namaste! I know the entire DCE campus schedule, bus routes to Huda City Centre, lab timings, faculty chambers, and cafeteria menus.
+              </div>
+              <div class="bg-red-950/60 border border-red-800/40 p-2.5 rounded-2xl text-slate-200 text-xs">
+                📍 <strong>Lab 3 (Advanced AI)</strong> is located in Block B, 3rd Floor, Room 304. Open till 5:00 PM.
+              </div>
+            </div>
+          </div>
+
+          <!-- Suggested Chips & Input -->
+          <div class="space-y-2 mt-2 relative z-10">
+            <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-[11px]">
+              <span class="whitespace-nowrap px-2.5 py-1 rounded-xl bg-white/10 text-slate-300 border border-white/10 hover:bg-white/20 cursor-pointer transition-colors">Where is Lab 3?</span>
+              <span class="whitespace-nowrap px-2.5 py-1 rounded-xl bg-white/10 text-slate-300 border border-white/10 hover:bg-white/20 cursor-pointer transition-colors">Bus timings?</span>
+              <span class="whitespace-nowrap px-2.5 py-1 rounded-xl bg-white/10 text-slate-300 border border-white/10 hover:bg-white/20 cursor-pointer transition-colors">WiFi setup?</span>
+            </div>
+
+            <div class="relative flex items-center">
+              <input 
+                type="text" 
+                placeholder="Ask smart campus mate..." 
+                class="w-full bg-slate-950/80 border border-red-800/50 rounded-2xl pl-3.5 pr-10 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-red-500 transition-colors"
+              />
+              <button class="absolute right-2 text-amber-400 hover:text-white p-1.5 hover:scale-110 transition-transform">
+                <i class="fa-solid fa-paper-plane text-xs"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ================= EDITORIAL CAMPUS DIRECTORY ================= -->
+    <section id="amenities" class="space-y-6 pt-4">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <span class="text-xs uppercase tracking-widest font-bold text-amber-400">Campus Infrastructure</span>
+          <h2 class="text-2xl sm:text-3xl font-display font-bold text-white">Smart Architecture & Facilities</h2>
+          <p class="text-xs sm:text-sm text-slate-400">Designed to blend modern technical rigor with spacious natural surroundings.</p>
+        </div>
+        <div class="relative min-w-[240px]">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-xs"></i>
+          <input 
+            type="text" 
+            placeholder="Search blocks, halls, cafeteria..."
+            class="w-full pl-9 pr-4 py-2 rounded-2xl text-xs bg-surface-darkCard border border-slate-800 text-slate-100 focus:outline-none focus:border-amber-400 transition-colors"
+          />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        
+        <div class="bg-surface-darkCard rounded-3xl p-5 border border-slate-800 shadow-luxury-dark hover:-translate-y-2 hover:border-amber-500/40 transition-all duration-300 group">
+          <div class="h-36 rounded-2xl overflow-hidden mb-3 relative">
+            <img src="https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover filter brightness-90 group-hover:scale-110 transition-transform duration-700" alt="Block A" />
+            <span class="absolute top-2 left-2 text-[10px] font-bold uppercase bg-slate-950/80 text-white px-2 py-0.5 rounded-lg backdrop-blur">Block A</span>
+          </div>
+          <h4 class="font-bold text-sm text-white group-hover:text-amber-400 transition-colors">Main Administrative & CS Block</h4>
+          <p class="text-xs text-slate-400 mt-1">Registrar Office, Dean's Chamber, High-performance computer labs.</p>
+          <div class="mt-3 flex items-center justify-between text-xs pt-2 border-t border-slate-800">
+            <span class="text-emerald-400 font-semibold"><i class="fa-solid fa-door-open mr-1"></i> Open now</span>
+            <span class="text-slate-400">Fl. 1-4</span>
+          </div>
+        </div>
+
+        <div class="bg-surface-darkCard rounded-3xl p-5 border border-slate-800 shadow-luxury-dark hover:-translate-y-2 hover:border-amber-500/40 transition-all duration-300 group">
+          <div class="h-36 rounded-2xl overflow-hidden mb-3 relative">
+            <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover filter brightness-90 group-hover:scale-110 transition-transform duration-700" alt="Incubation" />
+            <span class="absolute top-2 left-2 text-[10px] font-bold uppercase bg-slate-950/80 text-white px-2 py-0.5 rounded-lg backdrop-blur">Block B</span>
+          </div>
+          <h4 class="font-bold text-sm text-white group-hover:text-amber-400 transition-colors">Startup & Innovation Sandbox</h4>
+          <p class="text-xs text-slate-400 mt-1">Student startup incubator, 3D printing stations, & patent cell.</p>
+          <div class="mt-3 flex items-center justify-between text-xs pt-2 border-t border-slate-800">
+            <span class="text-emerald-400 font-semibold"><i class="fa-solid fa-seedling mr-1"></i> 12 Active Startups</span>
+            <span class="text-slate-400">Fl. Ground</span>
+          </div>
+        </div>
+
+        <div class="bg-surface-darkCard rounded-3xl p-5 border border-slate-800 shadow-luxury-dark hover:-translate-y-2 hover:border-amber-500/40 transition-all duration-300 group">
+          <div class="h-36 rounded-2xl overflow-hidden mb-3 relative">
+            <img src="https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover filter brightness-90 group-hover:scale-110 transition-transform duration-700" alt="Library" />
+            <span class="absolute top-2 left-2 text-[10px] font-bold uppercase bg-slate-950/80 text-white px-2 py-0.5 rounded-lg backdrop-blur">Block C</span>
+          </div>
+          <h4 class="font-bold text-sm text-white group-hover:text-amber-400 transition-colors">Digital Knowledge Center</h4>
+          <p class="text-xs text-slate-400 mt-1">IEEE Explorer terminal, quiet study cabins, and audio-visual room.</p>
+          <div class="mt-3 flex items-center justify-between text-xs pt-2 border-t border-slate-800">
+            <span class="text-red-400 font-semibold"><i class="fa-solid fa-book-open mr-1"></i> 45,000+ Books</span>
+            <span class="text-slate-400">Fl. 2</span>
+          </div>
+        </div>
+
+        <div class="bg-surface-darkCard rounded-3xl p-5 border border-slate-800 shadow-luxury-dark hover:-translate-y-2 hover:border-amber-500/40 transition-all duration-300 group">
+          <div class="h-36 rounded-2xl overflow-hidden mb-3 relative">
+            <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover filter brightness-90 group-hover:scale-110 transition-transform duration-700" alt="Sports Grounds" />
+            <span class="absolute top-2 left-2 text-[10px] font-bold uppercase bg-slate-950/80 text-white px-2 py-0.5 rounded-lg backdrop-blur">Sports</span>
+          </div>
+          <h4 class="font-bold text-sm text-white group-hover:text-amber-400 transition-colors">Athletic Complex & Grounds</h4>
+          <p class="text-xs text-slate-400 mt-1">Cricket pitch, basketball arena, badminton court, and gymnasium.</p>
+          <div class="mt-3 flex items-center justify-between text-xs pt-2 border-t border-slate-800">
+            <span class="text-amber-400 font-semibold"><i class="fa-solid fa-trophy mr-1"></i> Floodlights active</span>
+            <span class="text-slate-400">Open Ground</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="mt-16 border-t border-slate-800/80 bg-surface-darkCard/70 glass-panel py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-2xl bg-white p-1 flex items-center justify-center">
+          <img src="logo.png" alt="DCE Logo" class="w-full h-full object-contain" onerror="this.src='https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/DCE_Gurgaon_Logo.png/220px-DCE_Gurgaon_Logo.png';" />
+        </div>
+        <div>
+          <p class="text-sm font-bold text-white">Dronacharya College of Engineering &bull; Gurugram</p>
+          <p class="text-xs text-slate-500">Affiliated to Gurugram University & Approved by AICTE, New Delhi</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-4 text-xs font-semibold text-slate-400">
+        <a href="#id-modal" class="hover:text-white transition-colors">Digital Pass</a>
+        <a href="#live-sensors" class="hover:text-white transition-colors">Campus Sensors</a>
+        <a href="#events" class="hover:text-white transition-colors">Events</a>
+        <span class="text-slate-700">|</span>
+        <span class="text-[#dc3545]">Campus 2.0 Edition</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= FLOATING ACTION DOCK ================= -->
+  <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 glass-panel bg-[#111622]/90 border border-slate-700/80 px-4 py-2.5 rounded-full shadow-2xl flex items-center gap-2 sm:gap-4 transition-all duration-300 hover:scale-105 hover:border-amber-400/50">
+    <a href="#live-sensors" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-slate-200 hover:bg-slate-800 transition-colors">
+      <i class="fa-solid fa-tower-broadcast text-amber-400"></i>
+      <span class="hidden sm:inline">Sensors</span>
+    </a>
+    <div class="w-px h-4 bg-slate-700"></div>
+    <a href="#events" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-slate-200 hover:bg-slate-800 transition-colors">
+      <i class="fa-solid fa-calendar-day text-red-400"></i>
+      <span class="hidden sm:inline">Events</span>
+    </a>
+    <div class="w-px h-4 bg-slate-700"></div>
+    <a href="#nav-modal" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-slate-200 hover:bg-slate-800 transition-colors">
+      <i class="fa-solid fa-map-location-dot text-emerald-500"></i>
+      <span class="hidden sm:inline">Map</span>
+    </a>
+    <div class="w-px h-4 bg-slate-700"></div>
+    <a href="#id-modal" class="bg-brand-800 hover:bg-brand-700 text-white px-3.5 py-1.5 rounded-full text-xs font-extrabold flex items-center gap-1.5 shadow-md border border-red-500/40 hover:scale-105 transition-all">
+      <i class="fa-solid fa-qrcode text-amber-300"></i>
+      <span>My Pass</span>
+    </a>
+  </div>
+
+  <!-- ================= CSS-ONLY MODAL 1: DIGITAL IDENTITY PASS ================= -->
+  <div id="id-modal" class="modal-target fixed inset-0 z-50 items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+    <div class="relative w-full max-w-sm bg-surface-darkCard rounded-3xl border border-slate-700 shadow-2xl p-6 overflow-hidden">
+      
+      <!-- Close button -->
+      <a href="#" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center hover:bg-slate-700 hover:text-white hover:rotate-90 transition-all">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </a>
+
+      <div class="text-center space-y-4">
+        <div class="inline-flex p-3 rounded-2xl bg-[#8e1b1b] text-white shadow-glow-red">
+          <i class="fa-solid fa-id-card-clip text-2xl text-amber-300"></i>
+        </div>
+        <div>
+          <span class="text-[10px] tracking-widest uppercase font-extrabold text-amber-400">Official Student Identity</span>
+          <h3 class="text-xl font-bold font-display text-white">DCE Smart Pass</h3>
+          <p class="text-xs text-slate-400">Roll: 23-CSE-104 &bull; Batch 2023-27</p>
+        </div>
+
+        <div class="p-4 bg-slate-900 rounded-2xl border-2 border-dashed border-slate-700 inline-block hover:border-amber-400/50 transition-colors">
+          <svg class="w-40 h-40 mx-auto text-white" viewBox="0 0 100 100" fill="currentColor">
+            <rect x="10" y="10" width="24" height="24" rx="4" fill="none" stroke="currentColor" stroke-width="6"/>
+            <rect x="17" y="17" width="10" height="10" rx="2"/>
+            <rect x="66" y="10" width="24" height="24" rx="4" fill="none" stroke="currentColor" stroke-width="6"/>
+            <rect x="73" y="17" width="10" height="10" rx="2"/>
+            <rect x="10" y="66" width="24" height="24" rx="4" fill="none" stroke="currentColor" stroke-width="6"/>
+            <rect x="17" y="73" width="10" height="10" rx="2"/>
+            <circle cx="50" cy="50" r="8" fill="#8e1b1b"/>
+            <rect x="42" y="15" width="6" height="12"/>
+            <rect x="52" y="22" width="6" height="8"/>
+            <rect x="45" y="70" width="12" height="6"/>
+            <rect x="70" y="45" width="8" height="15"/>
+            <rect x="25" y="45" width="10" height="6"/>
+            <rect x="70" y="75" width="12" height="12" rx="2"/>
+          </svg>
+          <div class="mt-2 text-[11px] font-mono text-slate-300">LX-EDU-DCE-2026-ACTIVE</div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 text-left text-xs bg-slate-800/60 p-3 rounded-2xl border border-slate-700/50">
+          <div>
+            <span class="text-slate-400 block text-[10px]">Library Access</span>
+            <span class="font-bold text-emerald-400"><i class="fa-solid fa-circle-check"></i> Unlimited</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block text-[10px]">Bus Shuttle Pass</span>
+            <span class="font-bold text-amber-400"><i class="fa-solid fa-bus"></i> Route 4 (Active)</span>
+          </div>
+        </div>
+
+        <a href="#" class="block w-full py-2.5 rounded-xl bg-white text-slate-950 text-xs font-bold shadow-md hover:bg-slate-200 hover:scale-102 transition-all text-center">
+          <i class="fa-solid fa-download mr-1.5"></i> Save Pass Offline
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= CSS-ONLY MODAL 2: POST TO BOARD ================= -->
+  <div id="post-modal" class="modal-target fixed inset-0 z-50 items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+    <div class="relative w-full max-w-md bg-surface-darkCard rounded-3xl border border-slate-700 shadow-2xl p-6">
+      <a href="#" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center hover:bg-slate-700 hover:text-white hover:rotate-90 transition-all">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </a>
+
+      <h3 class="text-lg font-bold text-white mb-1">Create Community Post</h3>
+      <p class="text-xs text-slate-400 mb-4">Broadcast instantly to students across departments.</p>
+
+      <form class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">Category</label>
+          <select class="w-full bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded-xl p-2.5 focus:outline-none focus:border-red-500">
+            <option>Ride Sharing (Carpool / Metro)</option>
+            <option>Lost & Found Item</option>
+            <option>Study Notes / Books Exchange</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">Your Name & Year</label>
+          <input type="text" placeholder="e.g. Rahul Verma (ECE 3rd Yr)" class="w-full bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded-xl p-2.5 focus:outline-none focus:border-red-500" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">Message / Details</label>
+          <textarea rows="3" placeholder="What are you offering or searching for?" class="w-full bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded-xl p-2.5 focus:outline-none focus:border-red-500"></textarea>
+        </div>
+
+        <a href="#" class="block text-center w-full py-2.5 bg-brand-800 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-md hover:scale-102 transition-all">
+          Publish to Campus 2.0 Feed
+        </a>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= CSS-ONLY MODAL 3: CAMPUS NAVIGATION ================= -->
+  <div id="nav-modal" class="modal-target fixed inset-0 z-50 items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+    <div class="relative w-full max-w-2xl bg-surface-darkCard rounded-3xl border border-slate-700 shadow-2xl p-6">
+      <a href="#" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center hover:bg-slate-700 hover:text-white hover:rotate-90 transition-all">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </a>
+
+      <div class="flex items-center gap-2 mb-2">
+        <i class="fa-solid fa-compass text-amber-400 text-xl animate-spin" style="animation-duration: 12s;"></i>
+        <h3 class="text-xl font-bold font-display text-white">Campus 2.0 Live Navigator</h3>
+      </div>
+      <p class="text-xs text-slate-400 mb-4">Location: Khentawas, Farrukhnagar, Gurugram, Haryana 122506</p>
+
+      <div class="relative w-full h-64 bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden flex items-center justify-center">
+        <svg class="w-full h-full" viewBox="0 0 600 300" fill="none">
+          <rect width="600" height="300" fill="#131e2e"/>
+          <path d="M50 150 Q 200 120 300 150 T 550 150" stroke="#8e1b1b" stroke-width="12" stroke-linecap="round" stroke-dasharray="6 6"/>
+          
+          <rect x="80" y="40" width="130" height="80" rx="12" fill="#8e1b1b" fill-opacity="0.3" stroke="#8e1b1b" stroke-width="2"/>
+          <text x="145" y="85" text-anchor="middle" class="text-[12px] font-bold fill-white">Block A (Admin)</text>
+          
+          <rect x="250" y="30" width="140" height="90" rx="12" fill="#0284c7" fill-opacity="0.3" stroke="#38bdf8" stroke-width="2"/>
+          <text x="320" y="80" text-anchor="middle" class="text-[12px] font-bold fill-white">Block B (Tech Labs)</text>
+
+          <rect x="420" y="60" width="120" height="80" rx="12" fill="#0f766e" fill-opacity="0.25" stroke="#14b8a6" stroke-width="2"/>
+          <text x="480" y="105" text-anchor="middle" class="text-[12px] font-bold fill-white">Library / Block C</text>
+
+          <circle cx="300" cy="220" r="45" fill="#d97706" fill-opacity="0.2" stroke="#f59e0b" stroke-width="2"/>
+          <text x="300" y="225" text-anchor="middle" class="text-[11px] font-bold fill-white">Food Hub</text>
+
+          <g transform="translate(145, 145)">
+            <circle cx="0" cy="0" r="14" fill="#f59e0b" fill-opacity="0.3" class="animate-ping"/>
+            <circle cx="0" cy="0" r="7" fill="#d97706"/>
+            <text x="0" y="24" text-anchor="middle" class="text-[10px] font-extrabold fill-amber-400">Main Gate</text>
+          </g>
+        </svg>
+
+        <div class="absolute bottom-3 left-3 bg-black/80 backdrop-blur px-3 py-1.5 rounded-xl text-[11px] border border-slate-700">
+          <i class="fa-solid fa-person-walking text-amber-400 mr-1"></i> Walking distance: 3 mins to Block B
+        </div>
+      </div>
+
+      <div class="mt-4 flex flex-wrap gap-2 justify-end">
+        <a href="https://maps.google.com/?q=Dronacharya+College+of+Engineering+Gurugram" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-brand-800 hover:bg-brand-700 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 hover:scale-105 transition-all">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Open in Google Maps
+        </a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
